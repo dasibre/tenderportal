@@ -1,21 +1,35 @@
-var http = require("http"); //require node http module object
-var url  = require("url"); //require url module object
+var http = require("http");
+var url  = require("url")
 
-
-function start(route) { //start server function
-
-	function onRequest(request, response) {
+function start(route, handle) {
+	function onRequest(request,response) {
 		var pathname = url.parse(request.url).pathname;
-		var querystrings = url.parse(request.url).query;
-		console.log("Request for " + pathname + querystrings + " received");
-
-		route(pathname);
-
-		response.writeHead(200, {"Content-Type": "text/plain"});
-		response.write("Hello world");
-		response.end();
+		console.log("Request for " + pathname + " received");
+		route(handle,pathname,response);
 	}
-	http.createServer(onRequest).listen(8888); //call createServer method on http object with onRequest callback function
-	console.log("server has started");
+	http.createServer(onRequest).listen(8888);
+	console.log("Server has started");
 }
+
 exports.start = start;
+// var formidable = require('formidable'),
+// 	http = require('http'),
+// 	sys  = require('sys');
+
+// http.createServer(function(req,res){
+// 	if(req.url == '/upload' && req.method.toLowerCase()== 'post'){
+// 		var form = new formidable.IncomingForm();
+// 		form.parse(req, function(error, fields, files){
+// 			res.writeHead(200, {"Content-Type": "text/plain"});
+// 			res.write("received upload:\n\n");
+// 			res.end(sys.inspect({fields: fields, files: files}));
+// 		});
+// 		return;
+// 	}
+
+// 	res.writeHead(200, {"Content-Type": "text/html"});
+// 	res.end('<form action="/upload" enctype="multipart/form-data" '+ 'method="post"> '+
+//   			'<input type="file" name="file" id="file"></br>'+
+//   			'<input type="submit" name="submit" value="Upload">'+
+//   			'</form>');
+// }).listen(8888)
