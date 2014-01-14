@@ -21,11 +21,5 @@ function upload(response) {
   			'<input type="submit" name="submit" value="Upload">'+
   			'</form>');
 }
-
-function favicon() {
-	console.log("Request handler 'favicon' was called. ");
-}
-
 exports.upload = upload;
 exports.start = start;
-exports.favicon = favicon;
